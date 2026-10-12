@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+from supabase import create_client, Client
 import numpy as np
 import plotly.express as px
 import plotly.graph_objects as go
@@ -1089,9 +1090,35 @@ def render_login():
                 st.error("Demo login: admin / fraud2026")
     st.markdown("</div>", unsafe_allow_html=True)
 
-if st.query_params.get("auth") == "verified":
-    st.session_state["authenticated"] = True
+# Initialize Supabase client
+@st.cache_resource
+def get_supabase_client() -> Client:
+    return create_client(st.secrets["SUPABASE_URL"], st.secrets["SUPABASE_KEY"])
 
+supabase = get_supabase_client()
+
+# Check incoming session from login.html
+query_params = st.query_params
+if query_params.get("auth") == "verified":
+    token = query_params.get("token")
+    email = query_params.get("email")
+
+    if token:
+        try:
+            # Validate session token against Supabase Auth
+            user_response = supabase.auth.get_user(token)
+            if user_response and user_response.user:
+                st.session_state["authenticated"] = True
+                st.session_state["user_id"] = user_response.user.id
+                st.session_state["user_email"] = user_response.user.email
+        except Exception:
+            st.session_state["authenticated"] = False
+    elif email:
+        # Fallback if authenticated without token
+        st.session_state["authenticated"] = True
+        st.session_state["user_email"] = email
+
+# Block unauthorized visitors and direct them to login.html
 if not st.session_state.get("authenticated", False):
     st.markdown(
         """
