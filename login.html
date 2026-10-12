@@ -749,30 +749,78 @@
       closeOtpModal();
       grantAccess();
     }
+  // Initialize Supabase Client
+  const SUPABASE_URL = "https://cuvonjzyqxzdbrjeplvh.supabase.co";
+  const SUPABASE_ANON_KEY = "sb_publishable_DAeiUcFtrxA7n7JV4O6f2Q_RFzFpTA_";
+  const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    function grantAccess() {
-      const alertBox = document.getElementById('status-alert');
-      alertBox.className = "mb-5 p-3 rounded-xl text-xs flex items-start gap-2.5 bg-emerald-500/10 border border-emerald-500/30 text-emerald-200";
-      alertBox.innerHTML = `
-        <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400 shrink-0 mt-0.5"></i>
-        <div><strong>Clearance Authorized:</strong> Cryptographic handshake established. Launching Bharat Card Shield Console...</div>
-      `;
-      alertBox.classList.remove('hidden');
-      lucide.createIcons();
+  async function grantAccess() {
+    const alertBox = document.getElementById('status-alert');
+    
+    // Read input credentials (staff ID/email and passcode)
+    const emailInput = document.querySelector('input[type="text"], input[type="email"]');
+    const passwordInput = document.querySelector('input[type="password"]');
+    
+    let email = emailInput ? emailInput.value.trim() : "";
+    const password = passwordInput ? passwordInput.value : "";
 
-      // Launch Confetti Celebration
-      confetti({
-        particleCount: 80,
-        spread: 60,
-        origin: { y: 0.6 },
-        colors: ['#D4AF37', '#FF9933', '#138808', '#FFFFFF']
-      });
-
-      // Redirect simulation or bridge back to Streamlit app
-      setTimeout(() => {
-        window.location.href = "https://bharat-card-shield-uyb2x7dthlixheenwtpc4j.streamlit.app/?auth=verified";
-      }, 1600);
+    if (!email || !password) {
+      alert("Please enter both Staff ID / Email and Security Passcode.");
+      return;
     }
+
+    // Automatically format username as email if @ is missing
+    if (!email.includes("@")) {
+      email = `${email}@bharatcard.internal`;
+    }
+
+    // Try Supabase Sign In first; if user doesn't exist, auto-create account
+    let { data, error } = await supabaseClient.auth.signInWithPassword({
+      email: email,
+      password: password
+    });
+
+    if (error && error.message.toLowerCase().includes("invalid login credentials")) {
+      // Auto-register new accounts
+      const signUpRes = await supabaseClient.auth.signUp({
+        email: email,
+        password: password
+      });
+      if (signUpRes.error) {
+        alert("Authentication failed: " + signUpRes.error.message);
+        return;
+      }
+      data = signUpRes.data;
+    } else if (error) {
+      alert("Authentication error: " + error.message);
+      return;
+    }
+
+    // Display access granted badge
+    alertBox.className = "mb-5 p-3 rounded-xl text-xs flex items-start gap-2.5 bg-emerald-500/10 border border-emerald-500/30 text-emerald-200";
+    alertBox.innerHTML = `
+      <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400 shrink-0 mt-0.5"></i>
+      <div><strong>Clearance Authorized:</strong> Supabase session verified. Launching Bharat Card Shield Console...</div>
+    `;
+    alertBox.classList.remove('hidden');
+    lucide.createIcons();
+
+    // Launch Confetti Celebration
+    confetti({
+      particleCount: 80,
+      spread: 60,
+      origin: { y: 0.6 },
+      colors: ['#D4AF37', '#FF9933', '#138808', '#FFFFFF']
+    });
+
+    // Pass user session token to Streamlit app
+    const token = data.session ? data.session.access_token : "";
+    const userEmail = encodeURIComponent(data.user ? data.user.email : email);
+
+    setTimeout(() => {
+      window.location.href = `https://bharat-card-shield-uyb2x7dthlixheenwtpc4j.streamlit.app/?auth=verified&email=${userEmail}&token=${token}`;
+    }, 1200);
+  }
   </script>
 </body>
 </html>
