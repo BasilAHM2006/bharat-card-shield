@@ -1089,7 +1089,7 @@ def render_login():
                 st.error("Demo login: admin / fraud2026")
     st.markdown("</div>", unsafe_allow_html=True)
 
-   if st.query_params.get("auth") == "verified":
+if st.query_params.get("auth") == "verified":
     st.session_state["authenticated"] = True
 
 if not st.session_state.get("authenticated", False):
