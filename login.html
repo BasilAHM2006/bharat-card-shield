@@ -715,40 +715,49 @@
       btnSpinner.classList.add('flex');
       submitBtn.disabled = true;
 
-      setTimeout(() => {
-        // Authenticate check against demo criteria
-        if (id === 'admin' && pwd === 'fraud2026') {
-          if (isOtpReq) {
-            btnText.classList.remove('hidden');
-            btnSpinner.classList.add('hidden');
-            btnSpinner.classList.remove('flex');
-            submitBtn.disabled = false;
-            openOtpModal();
-          } else {
-            grantAccess();
-          }
-        } else {
-          // Failure response
+(async () => {
+      let email = id;
+      if (!email.includes('@')) {
+        email = `${email}@bharatcard.internal`;
+      }
+
+      // 1. Attempt Sign In
+      let { data, error } = await supabaseClient.auth.signInWithPassword({
+        email: email,
+        password: pwd
+      });
+
+      // 2. If user doesn't exist, automatically sign them up
+      if (error && (error.message.toLowerCase().includes('invalid login credentials') || error.message.toLowerCase().includes('user not found'))) {
+        const signUpRes = await supabaseClient.auth.signUp({
+          email: email,
+          password: pwd
+        });
+        if (signUpRes.error) {
+          alertBox.className = "mb-5 p-3 rounded-xl text-xs flex items-start gap-2.5 bg-rose-500/10 border border-rose-500/30 text-rose-200";
+          alertBox.innerHTML = `<div><strong>Registration Failed:</strong> ${signUpRes.error.message}</div>`;
+          alertBox.classList.remove('hidden');
           btnText.classList.remove('hidden');
           btnSpinner.classList.add('hidden');
           btnSpinner.classList.remove('flex');
           submitBtn.disabled = false;
-
-          alertBox.className = "mb-5 p-3 rounded-xl text-xs flex items-start gap-2.5 bg-rose-500/10 border border-rose-500/30 text-rose-200";
-          alertBox.innerHTML = `
-            <i data-lucide="alert-octagon" class="w-4 h-4 text-rose-400 shrink-0 mt-0.5"></i>
-            <div><strong>Access Denied:</strong> Invalid Staff ID or Security Passcode. Default teaching credential is <code>admin / fraud2026</code>.</div>
-          `;
-          alertBox.classList.remove('hidden');
-          lucide.createIcons();
+          return;
         }
-      }, 700);
-    }
+        data = signUpRes.data;
+      } else if (error) {
+        alertBox.className = "mb-5 p-3 rounded-xl text-xs flex items-start gap-2.5 bg-rose-500/10 border border-rose-500/30 text-rose-200";
+        alertBox.innerHTML = `<div><strong>Access Denied:</strong> ${error.message}</div>`;
+        alertBox.classList.remove('hidden');
+        btnText.classList.remove('hidden');
+        btnSpinner.classList.add('hidden');
+        btnSpinner.classList.remove('flex');
+        submitBtn.disabled = false;
+        return;
+      }
 
-    function confirmOtpAndRedirect() {
-      closeOtpModal();
+      // 3. Success: Grant access
       grantAccess();
-    }
+    })();
   // Initialize Supabase Client
   const SUPABASE_URL = "https://cuvonjzyqxzdbrjeplvh.supabase.co";
   const SUPABASE_ANON_KEY = "sb_publishable_DAeiUcFtrxA7n7JV4O6f2Q_RFzFpTA_";
