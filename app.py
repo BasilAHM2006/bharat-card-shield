@@ -1089,8 +1089,18 @@ def render_login():
                 st.error("Demo login: admin / fraud2026")
     st.markdown("</div>", unsafe_allow_html=True)
 
-if not st.session_state["authenticated"]:
-    render_login()
+    query_params = st.query_params
+
+if query_params.get("auth") == "verified":
+    st.session_state["authenticated"] = True
+
+if not st.session_state.get("authenticated", False):
+    st.markdown("""
+        <meta http-equiv="refresh" content="0; url=https://basilahm2006.github.io/bharat-card-shield/login.html">
+        <div style="text-align:center; padding: 40px; font-family: sans-serif; color: #0A2540;">
+            Redirecting to Bharat Card Shield Secure Gateway...
+        </div>
+    """, unsafe_allow_html=True)
     st.stop()
 st.sidebar.markdown(
     """
