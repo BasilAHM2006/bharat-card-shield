@@ -1089,18 +1089,24 @@ def render_login():
                 st.error("Demo login: admin / fraud2026")
     st.markdown("</div>", unsafe_allow_html=True)
 
-    query_params = st.query_params
-
-if query_params.get("auth") == "verified":
+   if st.query_params.get("auth") == "verified":
     st.session_state["authenticated"] = True
 
 if not st.session_state.get("authenticated", False):
-    st.markdown("""
-        <meta http-equiv="refresh" content="0; url=https://basilahm2006.github.io/bharat-card-shield/login.html">
-        <div style="text-align:center; padding: 40px; font-family: sans-serif; color: #0A2540;">
-            Redirecting to Bharat Card Shield Secure Gateway...
+    st.markdown(
+        """
+        <div style="text-align: center; padding: 60px 20px; font-family: sans-serif;">
+            <h2 style="color: #0A2540; margin-bottom: 12px;">Authentication Required</h2>
+            <p style="color: #4A5568; margin-bottom: 24px;">Please sign in through the official gateway to access Bharat Card Shield.</p>
+            <a href="https://basilahm2006.github.io/bharat-card-shield/login.html" 
+               target="_self"
+               style="background-color: #F5A623; color: #000; padding: 12px 28px; border-radius: 8px; text-decoration: none; font-weight: bold; display: inline-block;">
+                Go to Secure Login Portal →
+            </a>
         </div>
-    """, unsafe_allow_html=True)
+        """,
+        unsafe_allow_html=True,
+    )
     st.stop()
 st.sidebar.markdown(
     """
