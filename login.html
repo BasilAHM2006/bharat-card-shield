@@ -371,36 +371,6 @@
                 </button>
               </div>
             </div>
-
-            <!-- Quick Demo Credential Badge Helper -->
-            <div class="p-2.5 rounded-xl bg-bcs-navy-light/40 border border-slate-700/60 flex items-center justify-between text-xs">
-              <div class="flex items-center gap-2">
-                <i data-lucide="info" class="w-4 h-4 text-bcs-gold shrink-0"></i>
-                <span class="text-slate-300 text-[11px]" id="demo-pill-text">
-                  Demo Credentials: <code class="text-bcs-gold font-mono font-bold bg-black/40 px-1 py-0.5 rounded">admin</code> / <code class="text-bcs-gold font-mono font-bold bg-black/40 px-1 py-0.5 rounded">fraud2026</code>
-                </span>
-              </div>
-              <button 
-                type="button" 
-                onclick="autoFillCredentials()" 
-                class="px-2.5 py-1 rounded bg-bcs-gold/20 hover:bg-bcs-gold/30 text-bcs-gold-light text-[10px] font-bold uppercase transition tracking-wider shrink-0">
-                Auto-Fill
-              </button>
-            </div>
-
-<!-- Start selection here (Line 391): -->
-<!-- Biometric Verification / OTP Simulator Toggle -->
-...
-</div>
-<!-- End selection here (Line 421) -->
-```[cite: 12, 13]
-
-Leave line 423 (`</form>`) alone so the form structure stays intact[cite: 13].
-
-Replace lines **391 through 421**[cite: 12, 13] with:
-
-```html
-<!-- Auth Action Buttons -->
 <div class="pt-4 flex flex-col gap-3">
     <button type="button" id="submit-btn" onclick="handleAuth('login')"
             class="w-full py-3.5 px-4 bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold rounded-xl text-sm transition-all shadow-lg flex items-center justify-center gap-2 cursor-pointer">
