@@ -179,15 +179,6 @@
           </select>
         </div>
       </div>
-
-      <!-- Quick demo helper pill -->
-      <button 
-        id="quick-autofill-btn"
-        class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-bcs-gold/15 text-bcs-gold-light border border-bcs-gold/40 text-xs font-semibold hover:bg-bcs-gold/25 transition active:scale-95 shadow-sm"
-        title="Fill authorized testing credentials: admin / fraud2026">
-        <i data-lucide="key-round" class="w-3.5 h-3.5 text-bcs-gold"></i>
-        <span id="btn-demo-autofill">Quick Demo Auto-Fill</span>
-      </button>
     </div>
   </header>
 
@@ -216,10 +207,7 @@
           <div id="tilt-card" class="interactive-card relative w-full h-[200px] rounded-2xl p-5 text-amber-100 flex flex-col justify-between overflow-hidden shadow-2xl cursor-pointer"
                style="background: linear-gradient(135deg, #091A2F 0%, #113459 30%, #C9A227 60%, #30210C 90%, #06111D 100%); border: 1px solid rgba(243, 226, 168, 0.45);">
             
-            <!-- Metallic Glint Bar -->
             <div class="absolute inset-0 bg-gradient-to-tr from-transparent via-white/10 to-transparent pointer-events-none"></div>
-            
-            <!-- Tricolor Ribbon atop card -->
             <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#FF9933] via-white to-[#138808] opacity-80"></div>
 
             <!-- Top Row: Bank title & chip -->
@@ -286,7 +274,6 @@
       <div class="lg:col-span-7">
         <div class="glass-card rounded-2xl p-6 sm:p-8 lg:p-10 relative overflow-hidden">
           
-          <!-- Subtle Top Indicator -->
           <div class="flex items-center justify-between pb-6 border-b border-bcs-gold/20 mb-6">
             <div>
               <h2 class="text-xl sm:text-2xl font-bold text-white tracking-tight flex items-center gap-2" id="form-heading">
@@ -304,7 +291,7 @@
           <!-- Alert / Status Notice Box -->
           <div id="status-alert" class="hidden mb-5 p-3 rounded-xl text-xs flex items-start gap-2.5 transition-all"></div>
 
-          <form id="login-form" class="space-y-4" onsubmit="handleFormSubmit(event)">
+          <form id="login-form" class="space-y-4" onsubmit="return false;">
             
             <!-- Staff Role Selector -->
             <div>
@@ -322,19 +309,18 @@
               </div>
             </div>
 
-            <!-- Staff ID Input -->
+            <!-- Email / Staff ID Input -->
             <div>
               <label for="staff-id" class="block text-xs font-semibold text-slate-300 mb-1.5 flex justify-between">
-                <span id="lbl-staff-id">STAFF ID / BADGE IDENTIFIER</span>
-                <span class="text-[10px] text-slate-400 font-mono">e.g. admin</span>
+                <span id="lbl-staff-id">EMAIL ADDRESS / BADGE IDENTIFIER</span>
               </label>
               <div class="relative">
                 <i data-lucide="user-check" class="w-4 h-4 text-bcs-gold absolute left-3.5 top-3"></i>
                 <input 
-                  type="text" 
+                  type="email" 
                   id="staff-id" 
                   required
-                  placeholder="Enter staff identifier" 
+                  placeholder="Enter email address" 
                   class="w-full custom-input rounded-xl pl-10 pr-4 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none"
                   autocomplete="username"
                 />
@@ -371,16 +357,17 @@
                 </button>
               </div>
             </div>
-<div class="pt-4 flex flex-col gap-3">
-    <button type="button" id="submit-btn" onclick="handleAuth('login')"
-            class="w-full py-3.5 px-4 bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold rounded-xl text-sm transition-all shadow-lg flex items-center justify-center gap-2 cursor-pointer">
-        <span>Sign In</span>
-    </button>
-    <button type="button" onclick="handleAuth('signup')"
-            class="w-full py-2.5 px-4 bg-transparent border border-amber-400/30 hover:border-amber-400 text-amber-300 font-semibold rounded-xl text-xs transition-all cursor-pointer">
-        New user? Create an Account
-    </button>
-</div>
+
+            <div class="pt-4 flex flex-col gap-3">
+              <button type="button" id="submit-btn" onclick="handleAuth('login')"
+                      class="w-full py-3.5 px-4 bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold rounded-xl text-sm transition-all shadow-lg flex items-center justify-center gap-2 cursor-pointer">
+                <span>Sign In</span>
+              </button>
+              <button type="button" onclick="handleAuth('signup')"
+                      class="w-full py-2.5 px-4 bg-transparent border border-amber-400/30 hover:border-amber-400 text-amber-300 font-semibold rounded-xl text-xs transition-all cursor-pointer">
+                New user? Create an Account
+              </button>
+            </div>
 
           </form>
 
@@ -407,36 +394,6 @@
     </div>
   </footer>
 
-  <div id="otp-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-    <div class="glass-card max-w-sm w-full rounded-2xl p-6 border border-bcs-gold/40 relative shadow-2xl">
-      <div class="text-center space-y-2">
-        <div class="w-12 h-12 rounded-full bg-bcs-gold/20 border border-bcs-gold mx-auto flex items-center justify-center text-bcs-gold">
-          <i data-lucide="smartphone" class="w-6 h-6"></i>
-        </div>
-        <h3 class="text-lg font-bold text-white">2-Factor OTP Challenge</h3>
-        <p class="text-xs text-slate-300">Enter simulated 6-digit confirmation sent to your registered security phone (+91 ••••• ••429)</p>
-      </div>
-
-      <div class="my-5 flex justify-center gap-2">
-        <input type="text" maxlength="1" class="otp-box w-10 h-12 text-center font-mono text-lg font-bold bg-bcs-navy border border-bcs-gold/40 rounded-lg text-white focus:border-bcs-gold focus:outline-none" value="7">
-        <input type="text" maxlength="1" class="otp-box w-10 h-12 text-center font-mono text-lg font-bold bg-bcs-navy border border-bcs-gold/40 rounded-lg text-white focus:border-bcs-gold focus:outline-none" value="4">
-        <input type="text" maxlength="1" class="otp-box w-10 h-12 text-center font-mono text-lg font-bold bg-bcs-navy border border-bcs-gold/40 rounded-lg text-white focus:border-bcs-gold focus:outline-none" value="2">
-        <input type="text" maxlength="1" class="otp-box w-10 h-12 text-center font-mono text-lg font-bold bg-bcs-navy border border-bcs-gold/40 rounded-lg text-white focus:border-bcs-gold focus:outline-none" value="9">
-        <input type="text" maxlength="1" class="otp-box w-10 h-12 text-center font-mono text-lg font-bold bg-bcs-navy border border-bcs-gold/40 rounded-lg text-white focus:border-bcs-gold focus:outline-none" value="1">
-        <input type="text" maxlength="1" class="otp-box w-10 h-12 text-center font-mono text-lg font-bold bg-bcs-navy border border-bcs-gold/40 rounded-lg text-white focus:border-bcs-gold focus:outline-none" value="8">
-      </div>
-
-      <div class="space-y-2">
-        <button onclick="confirmOtpAndRedirect()" class="w-full py-2.5 rounded-xl bg-bcs-gold text-bcs-navy font-bold text-xs uppercase tracking-wider hover:bg-bcs-gold-light transition shadow-md">
-          Verify & Launch Console
-        </button>
-        <button onclick="closeOtpModal()" class="w-full py-2 text-xs text-slate-400 hover:text-white transition">
-          Cancel
-        </button>
-      </div>
-    </div>
-  </div>
-
   <!-- Help & Guidelines Modal -->
   <div id="help-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
     <div class="glass-card max-w-md w-full rounded-2xl p-6 border border-bcs-gold/40 relative space-y-4">
@@ -450,9 +407,9 @@
         </button>
       </div>
       <div class="text-xs text-slate-300 space-y-2 leading-relaxed">
-        <p>1. <strong>Demo Credentials:</strong> Use Staff ID <code class="text-bcs-gold font-mono">admin</code> and Passcode <code class="text-bcs-gold font-mono">fraud2026</code>.</p>
+        <p>1. <strong>Direct Access:</strong> Use your registered credentials or select "Create an Account" to provision a new access token.</p>
         <p>2. <strong>Role Clearance:</strong> Risk Analyst handles daily anomalous flags; Lead Investigator interfaces with police portal (1930 / I4C); Admin manages ML pipeline retraining.</p>
-        <p>3. <strong>Zero-Trust Notice:</strong> Passcodes are hashed via SHA-256 before transit across interbank relay nodes.</p>
+        <p>3. <strong>Zero-Trust Notice:</strong> Passcodes and sessions are validated via Supabase Auth before routing to the monitoring console.</p>
       </div>
       <button onclick="closeHelpModal()" class="w-full py-2 rounded-lg bg-bcs-navy-light text-white font-medium text-xs border border-slate-600 hover:border-bcs-gold transition">
         Understood
@@ -463,6 +420,11 @@
   <script>
     // Initialize Lucide icons
     lucide.createIcons();
+
+    // Initialize Supabase Client
+    const SUPABASE_URL = "https://cuvonjzyqxzdbrjeplvh.supabase.co";
+    const SUPABASE_ANON_KEY = "sb_publishable_DAeiUcFtrxA7n7JV4O6f2Q_RFzFpTA_";
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
     // Multi-Language Dictionary
     const I18N = {
@@ -475,11 +437,8 @@
         formHeading: "Sign in to Sentinel Shield",
         formSub: "Enter your authorized credentials or select demo presets",
         lblRole: "OPERATIONAL CLEARANCE / ROLE",
-        lblStaffId: "STAFF ID / BADGE IDENTIFIER",
+        lblStaffId: "EMAIL ADDRESS / BADGE IDENTIFIER",
         lblPasscode: "SECURITY PASSCODE",
-        lblOtp: "Simulate Second-Factor OTP (1930 / SMS)",
-        btnDemo: "Quick Demo Auto-Fill",
-        btnSubmit: "Authenticate & Enter Vigilance Portal",
         cardHolder: "AUTHORIZED STAFF"
       },
       hi: {
@@ -491,11 +450,8 @@
         formHeading: "सेंटिनल शील्ड में साइन इन करें",
         formSub: "अपने अधिकृत क्रेडेंशियल्स दर्ज करें या डेमो विकल्प चुनें",
         lblRole: "परिचालन भूमिका / अनुमति स्तर",
-        lblStaffId: "स्टाफ आईडी / बैज पहचानकर्ता",
+        lblStaffId: "ईमेल आईडी / बैज पहचानकर्ता",
         lblPasscode: "सुरक्षा पासकोड",
-        lblOtp: "द्वितीय-कारक ओटीपी सिमुलेशन (1930 / एसएमएस)",
-        btnDemo: "त्वरित डेमो ऑटो-फिल",
-        btnSubmit: "प्रमाणित करें और पोर्टल में प्रवेश करें",
         cardHolder: "अधिकृत स्टाफ"
       },
       ta: {
@@ -507,11 +463,8 @@
         formHeading: "சென்டினல் ஷீல்டில் உள்நுழையவும்",
         formSub: "உங்கள் பணியாளர் விவரங்களை உள்ளிடவும்",
         lblRole: "செயல்பாட்டுப் பொறுப்பு / அனுமதி",
-        lblStaffId: "பணியாளர் எண் (Staff ID)",
+        lblStaffId: "மின்னஞ்சல் முகவரி (Email)",
         lblPasscode: "ரகசிய கடவுச்சொல் (Passcode)",
-        lblOtp: "இரண்டாம் நிலை OTP சரிபார்ப்பு",
-        btnDemo: "மாதிரி தானியங்கு நிரப்புதல்",
-        btnSubmit: "சரிபார்த்து தளத்திற்குள் நுழையவும்",
         cardHolder: "அங்கீகரிக்கப்பட்ட பணியாளர்"
       },
       te: {
@@ -523,11 +476,8 @@
         formHeading: "సెంటినెల్ షీల్డ్‌లోకి ప్రవేశించండి",
         formSub: "మీ ఆధారాలను నమోదు చేయండి",
         lblRole: "కార్యాచరణ పాత్ర",
-        lblStaffId: "స్టాఫ్ ఐడీ",
+        lblStaffId: "ఈమెయిల్ చిరునామా",
         lblPasscode: "పాస్‌కోడ్",
-        lblOtp: "రెండవ దశ OTP నిర్ధారణ",
-        btnDemo: "డెమో ఆటో-ఫిల్",
-        btnSubmit: "లాగిన్ అవ్వండి",
         cardHolder: "అధికారిక సిబ్బంది"
       },
       ur: {
@@ -539,11 +489,8 @@
         formHeading: "سینٹینل شیلڈ میں سائن ان کریں",
         formSub: "اپنے مجاز اسناد درج کریں",
         lblRole: "آپریشنل کلیئرنس / کردار",
-        lblStaffId: "اسٹاف شناختی کارڈ",
+        lblStaffId: "ای میل ایڈریس",
         lblPasscode: "سیکیورٹی پاس کوڈ",
-        lblOtp: "او ٹی پی سمولیشن کی توثیق کریں",
-        btnDemo: "ڈیمو آٹو فل کریں",
-        btnSubmit: "تصدیق کر کے پورٹل میں داخل ہوں",
         cardHolder: "مجاز اسٹاف"
       },
       ml: {
@@ -555,11 +502,8 @@
         formHeading: "സെന്റിനൽ ഷീൽഡിൽ പ്രവേശിക്കുക",
         formSub: "അംഗീകൃത വിവരങ്ങൾ നൽകുക",
         lblRole: "ഉത്തരവാദിത്തം / റോൾ",
-        lblStaffId: "സ്റ്റാഫ് ഐഡി",
+        lblStaffId: "ഇമെയിൽ വിലാസം",
         lblPasscode: "പാസ്‌കോഡ്",
-        lblOtp: "രണ്ടാം ഘട്ട ഒടിപി പരിശോധന",
-        btnDemo: "ഡെമോ ഓട്ടോ ഫിൽ",
-        btnSubmit: "പോർട്ടലിലേക്ക് പ്രവേശിക്കുക",
         cardHolder: "അംഗീകൃത ജീവനക്കാരൻ"
       }
     };
@@ -579,9 +523,6 @@
       document.getElementById('lbl-role').textContent = t.lblRole;
       document.getElementById('lbl-staff-id').textContent = t.lblStaffId;
       document.getElementById('lbl-passcode').textContent = t.lblPasscode;
-      document.getElementById('lbl-otp-check').textContent = t.lblOtp;
-      document.getElementById('btn-demo-autofill').textContent = t.btnDemo;
-      document.getElementById('btn-submit-text').querySelector('span').textContent = t.btnSubmit;
       document.getElementById('card-holder-name').textContent = t.cardHolder;
     });
 
@@ -599,51 +540,12 @@
       lucide.createIcons();
     }
 
-    // Auto-Fill Demo Credentials
-    function autoFillCredentials() {
-      const idInput = document.getElementById('staff-id');
-      const pwdInput = document.getElementById('staff-password');
-      idInput.value = 'admin';
-      pwdInput.value = 'fraud2026';
-      
-      // Visual feedback
-      const alertBox = document.getElementById('status-alert');
-      alertBox.className = "mb-5 p-3 rounded-xl text-xs flex items-start gap-2.5 bg-amber-500/10 border border-amber-500/30 text-amber-200";
-      alertBox.innerHTML = `
-        <i data-lucide="info" class="w-4 h-4 text-bcs-gold shrink-0 mt-0.5"></i>
-        <div><strong>Credentials Populated:</strong> Demo parameters admin / fraud2026 injected. Ready to authenticate.</div>
-      `;
-      alertBox.classList.remove('hidden');
-      lucide.createIcons();
-    }
-
-    document.getElementById('quick-autofill-btn').addEventListener('click', autoFillCredentials);
-
-    // Biometric Simulation Prompt
-    function triggerBiometricSimulation() {
-      const alertBox = document.getElementById('status-alert');
-      alertBox.className = "mb-5 p-3 rounded-xl text-xs flex items-start gap-2.5 bg-sky-500/10 border border-sky-500/30 text-sky-200";
-      alertBox.innerHTML = `
-        <i data-lucide="fingerprint" class="w-4 h-4 text-sky-400 shrink-0 mt-0.5 animate-pulse"></i>
-        <div><strong>Biometric Scanner Active:</strong> USB Hardware FIDO2 Security Key Detected. Operator verification matched.</div>
-      `;
-      alertBox.classList.remove('hidden');
-      autoFillCredentials();
-      lucide.createIcons();
-    }
-
-    // Modals
+    // Modal Helpers
     function showHelpModal() {
       document.getElementById('help-modal').classList.remove('hidden');
     }
     function closeHelpModal() {
       document.getElementById('help-modal').classList.add('hidden');
-    }
-    function openOtpModal() {
-      document.getElementById('otp-modal').classList.remove('hidden');
-    }
-    function closeOtpModal() {
-      document.getElementById('otp-modal').classList.add('hidden');
     }
 
     // 3D Tilt Card Simulation
@@ -660,138 +562,79 @@
       cardEl.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
     });
 
-    // Form Submission & Verification
-    function handleFormSubmit(e) {
-      e.preventDefault();
-      const id = document.getElementById('staff-id').value.trim();
-      const pwd = document.getElementById('staff-password').value;
-      const isOtpReq = document.getElementById('require-otp').checked;
+    // Primary Authentication Handler
+    async function handleAuth(mode) {
+      const idInput = document.getElementById('staff-id');
+      const pwdInput = document.getElementById('staff-password');
       const alertBox = document.getElementById('status-alert');
-      const submitBtn = document.getElementById('submit-btn');
-      const btnText = document.getElementById('btn-submit-text');
-      const btnSpinner = document.getElementById('btn-spinner');
 
-      // Visual Loading State
-      btnText.classList.add('hidden');
-      btnSpinner.classList.remove('hidden');
-      btnSpinner.classList.add('flex');
-      submitBtn.disabled = true;
+      let email = idInput ? idInput.value.trim() : "";
+      const password = pwdInput ? pwdInput.value : "";
 
-(async () => {
-      let email = id;
-      if (!email.includes('@')) {
+      if (!email || !password) {
+        alert("Please enter both email and password.");
+        return;
+      }
+
+      if (password.length < 6) {
+        alert("Password must be at least 6 characters.");
+        return;
+      }
+
+      if (!email.includes("@")) {
         email = `${email}@bharatcard.internal`;
       }
 
-      // 1. Attempt Sign In
-      let { data, error } = await supabaseClient.auth.signInWithPassword({
-        email: email,
-        password: pwd
-      });
+      let data, error;
 
-      // 2. If user doesn't exist, automatically sign them up
-      if (error && (error.message.toLowerCase().includes('invalid login credentials') || error.message.toLowerCase().includes('user not found'))) {
-        const signUpRes = await supabaseClient.auth.signUp({
+      if (mode === 'signup') {
+        const res = await supabaseClient.auth.signUp({
           email: email,
-          password: pwd
+          password: password
         });
-        if (signUpRes.error) {
-          alertBox.className = "mb-5 p-3 rounded-xl text-xs flex items-start gap-2.5 bg-rose-500/10 border border-rose-500/30 text-rose-200";
-          alertBox.innerHTML = `<div><strong>Registration Failed:</strong> ${signUpRes.error.message}</div>`;
-          alertBox.classList.remove('hidden');
-          btnText.classList.remove('hidden');
-          btnSpinner.classList.add('hidden');
-          btnSpinner.classList.remove('flex');
-          submitBtn.disabled = false;
-          return;
-        }
-        data = signUpRes.data;
-      } else if (error) {
+        data = res.data;
+        error = res.error;
+      } else {
+        const res = await supabaseClient.auth.signInWithPassword({
+          email: email,
+          password: password
+        });
+        data = res.data;
+        error = res.error;
+      }
+
+      if (error) {
         alertBox.className = "mb-5 p-3 rounded-xl text-xs flex items-start gap-2.5 bg-rose-500/10 border border-rose-500/30 text-rose-200";
         alertBox.innerHTML = `<div><strong>Access Denied:</strong> ${error.message}</div>`;
         alertBox.classList.remove('hidden');
-        btnText.classList.remove('hidden');
-        btnSpinner.classList.add('hidden');
-        btnSpinner.classList.remove('flex');
-        submitBtn.disabled = false;
         return;
       }
 
-      // 3. Success: Grant access
-      grantAccess();
-    })();
-  // Initialize Supabase Client
-  const SUPABASE_URL = "https://cuvonjzyqxzdbrjeplvh.supabase.co";
-  const SUPABASE_ANON_KEY = "sb_publishable_DAeiUcFtrxA7n7JV4O6f2Q_RFzFpTA_";
-  const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+      // Successful auth display
+      alertBox.className = "mb-5 p-3 rounded-xl text-xs flex items-start gap-2.5 bg-emerald-500/10 border border-emerald-500/30 text-emerald-200";
+      alertBox.innerHTML = `
+        <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400 shrink-0 mt-0.5"></i>
+        <div><strong>Clearance Authorized:</strong> Launching Bharat Card Shield Console...</div>
+      `;
+      alertBox.classList.remove('hidden');
+      lucide.createIcons();
 
-  async function grantAccess() {
-    const alertBox = document.getElementById('status-alert');
-    
-    // Read input credentials (staff ID/email and passcode)
-    const emailInput = document.querySelector('input[type="text"], input[type="email"]');
-    const passwordInput = document.querySelector('input[type="password"]');
-    
-    let email = emailInput ? emailInput.value.trim() : "";
-    const password = passwordInput ? passwordInput.value : "";
-
-    if (!email || !password) {
-      alert("Please enter both Staff ID / Email and Security Passcode.");
-      return;
-    }
-
-    // Automatically format username as email if @ is missing
-    if (!email.includes("@")) {
-      email = `${email}@bharatcard.internal`;
-    }
-
-    // Try Supabase Sign In first; if user doesn't exist, auto-create account
-    let { data, error } = await supabaseClient.auth.signInWithPassword({
-      email: email,
-      password: password
-    });
-
-    if (error && error.message.toLowerCase().includes("invalid login credentials")) {
-      // Auto-register new accounts
-      const signUpRes = await supabaseClient.auth.signUp({
-        email: email,
-        password: password
-      });
-      if (signUpRes.error) {
-        alert("Authentication failed: " + signUpRes.error.message);
-        return;
+      if (typeof confetti === 'function') {
+        confetti({
+          particleCount: 80,
+          spread: 60,
+          origin: { y: 0.6 },
+          colors: ['#D4AF37', '#FF9933', '#138808', '#FFFFFF']
+        });
       }
-      data = signUpRes.data;
-    } else if (error) {
-      alert("Authentication error: " + error.message);
-      return;
+
+      const token = (data && data.session) ? data.session.access_token : "";
+      const userEmail = encodeURIComponent(email);
+
+      setTimeout(() => {
+        window.location.href = `https://bharat-card-shield-uyb2x7dthlixheenwtpc4j.streamlit.app/?auth=verified&email=${userEmail}&token=${token}`;
+      }, 1000);
     }
-
-    // Display access granted badge
-    alertBox.className = "mb-5 p-3 rounded-xl text-xs flex items-start gap-2.5 bg-emerald-500/10 border border-emerald-500/30 text-emerald-200";
-    alertBox.innerHTML = `
-      <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400 shrink-0 mt-0.5"></i>
-      <div><strong>Clearance Authorized:</strong> Supabase session verified. Launching Bharat Card Shield Console...</div>
-    `;
-    alertBox.classList.remove('hidden');
-    lucide.createIcons();
-
-    // Launch Confetti Celebration
-    confetti({
-      particleCount: 80,
-      spread: 60,
-      origin: { y: 0.6 },
-      colors: ['#D4AF37', '#FF9933', '#138808', '#FFFFFF']
-    });
-
-    // Pass user session token to Streamlit app
-    const token = data.session ? data.session.access_token : "";
-    const userEmail = encodeURIComponent(data.user ? data.user.email : email);
-
-    setTimeout(() => {
-      window.location.href = `https://bharat-card-shield-uyb2x7dthlixheenwtpc4j.streamlit.app/?auth=verified&email=${userEmail}&token=${token}`;
-    }, 1200);
-  }
   </script>
 </body>
 </html>
